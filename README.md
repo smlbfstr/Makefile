@@ -11,6 +11,7 @@ The makefile I use for all of my C projects
 - `all` subcommand for quick and easy rebuilding
 - `-r` flag for building in release mode without editing the config (as per requested)
 
+## Source
 ```make
 # C makefile by Samuel B. Foster (github.com/smlbfstr)
 
