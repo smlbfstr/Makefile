@@ -1,4 +1,4 @@
-# Makefile
+ # Makefile
 The makefile I use for all of my C projects
 
 ## Features
@@ -17,8 +17,10 @@ The makefile I use for all of my C projects
 
 # Config
 compiler = gcc
-debug_flags = -Wall -O2 -g
-release_flags = -Wall -O2
+debug_compile_flags = -Wall -O2 -g
+debug_link_flags = 
+release_compile_flags = -Wall -O2
+release_link_flags = 
 debug = true
 
 build_directory = bin
@@ -32,21 +34,24 @@ dependencies = $(objects:.o=.d)
 include_directories = $(shell find $(source_directory) -type d)
 prefix = [\x1b[33mmake\x1b[0m]
 compile_flags =
+link_flags =
 
 ifeq ($(findstring r,$(firstword -$(MAKEFLAGS))),r)
 	debug = false
 endif
 
 ifeq ($(debug), true)
-	compile_flags += $(debug_flags)
+	compile_flags += $(debug_compile_flags)
+	link_flags += $(debug_link_flags)
 else
-	compile_flags += $(release_flags)
+	compile_flags += $(release_compile_flags)
+	link_flags += $(release_link_flags)
 endif
 
 # Build rules
 $(target): $(objects)
 	@printf "$(prefix) \x1b[35mLinking objects\x1b[0m\n"
-	@$(compiler) $(objects) -o $@ $(LDFLAGS)
+	@$(compiler) $(objects) -o $@ $(link_flags)
 
 $(build_directory)/%.c.o: %.c
 	@mkdir -p $(dir $@)
